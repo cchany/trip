@@ -5,6 +5,7 @@ import HomeScreen from "./HomeScreen";
 import ConfirmScreen from "./ConfirmScreen";
 import IntroScreen from "./IntroScreen";
 import TimelineScreen from "./TimelineScreen";
+import MusicPlayer from "./MusicPlayer";
 
 const SCREENS = {
   HOME: "home",
@@ -18,6 +19,7 @@ export default function HwansungApp() {
 
   return (
     <div className="app-shell">
+      <MusicPlayer />
       {screen === SCREENS.HOME && (
         <HomeScreen
           onYes={() => setScreen(SCREENS.CONFIRM)}
