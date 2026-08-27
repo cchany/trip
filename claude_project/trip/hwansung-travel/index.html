@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>여행 앱 Project - 가마쿠라</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="app-shell">
+
+  <!-- ===================== 화면 1: HOME (메시지 알림) ===================== -->
+  <section id="screen-home" class="screen active">
+    <div class="notify-card">
+      <div class="notify-top">
+        <span class="notify-bell" aria-hidden="true">🔔</span>
+        <span class="notify-label">딩동</span>
+      </div>
+      <p class="notify-message">
+        <span class="notify-name">OO</span>에게 메시지가<br>
+        왔습니다.
+      </p>
+      <div class="notify-actions">
+        <button id="btn-no" class="btn btn-outline" type="button">NO</button>
+        <button id="btn-yes" class="btn btn-primary" type="button">YES</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 화면 2: 메시지 확인 ===================== -->
+  <section id="screen-confirm" class="screen">
+    <div class="confirm-wrap">
+      <div class="message-box">
+        <!-- 하늘색 문자 메시지 UI: 텍스트는 추후 작성 예정 -->
+        <div class="message-line"></div>
+        <div class="message-line short"></div>
+        <div class="message-line"></div>
+      </div>
+
+      <div class="confirm-actions">
+        <button id="btn-confirm" class="btn btn-primary pill-lg" type="button">확인</button>
+        <div class="side-box" aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 화면 3: N번째 여행지 소개 (가마쿠라) ===================== -->
+  <section id="screen-intro" class="screen">
+    <div class="intro-bg">
+      <!-- 배경은 가마쿠라 영상: 아래 video의 src를 assets/video/kamakura.mp4 로 교체하세요 -->
+      <video class="intro-video" autoplay muted loop playsinline poster="assets/images/kamakura-poster.jpg">
+        <source src="assets/video/kamakura.mp4" type="video/mp4">
+      </video>
+      <div class="intro-overlay"></div>
+    </div>
+    <div class="intro-content">
+      <p class="intro-eyebrow"><span id="trip-number">1</span>번째 여행지,</p>
+      <h1 class="intro-title">가마쿠라</h1>
+      <button id="btn-schedule" class="btn btn-primary pill-lg" type="button">일정확인</button>
+    </div>
+  </section>
+
+  <!-- ===================== 화면 4: 일정 화면 ===================== -->
+  <section id="screen-timeline" class="screen">
+    <div class="timeline-wrap">
+      <nav class="tab-bar" role="tablist">
+        <button class="tab-btn active" data-day="0" type="button">여정</button>
+        <button class="tab-btn" data-day="1" type="button">1일차</button>
+        <button class="tab-btn" data-day="2" type="button">2</button>
+        <button class="tab-btn" data-day="3" type="button">3</button>
+        <button class="tab-btn" data-day="4" type="button">4</button>
+      </nav>
+
+      <ul class="schedule-list" id="schedule-list">
+        <!-- JS가 day별 데이터로 채워줍니다 -->
+      </ul>
+    </div>
+  </section>
+
+</div>
+
+<script src="js/app.js"></script>
+</body>
+</html>
