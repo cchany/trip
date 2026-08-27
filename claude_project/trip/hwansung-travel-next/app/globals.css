@@ -140,48 +140,103 @@ button { font: inherit; color: inherit; }
 }
 
 /* ===================== 화면 2: 메시지 확인 ===================== */
-.confirm-wrap {
-  width: 100%;
-  max-width: 320px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 28px;
+.confirm-screen {
+  position: relative;
+  align-items: stretch;
+  justify-content: flex-end;
 }
-.message-box {
-  width: 100%;
-  min-height: 220px;
-  background: var(--card);
-  border: 1px solid var(--card-line);
-  border-radius: var(--r-card);
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 16px;
-  box-shadow: 0 10px 30px rgba(81, 60, 54, 0.12);
-}
-.message-line {
-  height: 10px;
-  border-radius: var(--r-pill);
-  background: linear-gradient(90deg, var(--sky-2), var(--sky-1));
-  width: 100%;
-}
-.message-line.short { width: 60%; }
 
-.confirm-actions {
+/* 봉투 아이콘 (우측 하단 고정) */
+.envelope-fab {
+  position: absolute;
+  right: 20px;
+  bottom: 28px;
+  width: 132px;
+  aspect-ratio: 480 / 319;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  overflow: visible;
+  filter: drop-shadow(0 10px 18px rgba(81, 60, 54, 0.35));
+  animation: envelope-idle 1.8s ease-in-out infinite;
+}
+.envelope-fab.opened { animation: none; }
+.envelope-fab img {
   width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+@keyframes envelope-idle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+/* 봉투 위로 쌓이는 메시지 스택 — 첫 메시지가 위, 다음 메시지가 그 아래로 순서대로 쌓임 */
+.message-stack {
+  position: absolute;
+  right: 24px;
+  top: 520px;
+  width: 240px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.chat-bubble {
+  width: fit-content;
+  max-width: 84%;
+  min-height: 40px;
+  border-radius: 20px;
+  background: var(--card);
+  box-shadow: 0 8px 20px rgba(81, 60, 54, 0.15);
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 16px;
+  padding: 10px 18px;
+  align-self: flex-end;
 }
-.side-box {
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  background: var(--peach);
-  border: 1px dashed var(--coral);
+.chat-bubble-text {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1.4;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.select-card {
+  width: 100%;
+  border: none;
+  border-radius: 18px;
+  background: #191512;
+  color: #fff;
+  padding: 20px 18px;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.4);
+  animation: bubble-pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both,
+             select-card-pulse 1.8s ease-in-out 0.6s infinite;
+}
+.select-card-text {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+@keyframes bubble-pop {
+  0% { transform: scale(0.3) translateY(14px); opacity: 0; }
+  60% { transform: scale(1.08) translateY(-3px); opacity: 1; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+.chat-bubble.bubble-pop { animation-duration: 0.4s; animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1); animation-fill-mode: both; }
+
+@keyframes select-card-pulse {
+  0%, 100% { box-shadow: 0 14px 30px rgba(0, 0, 0, 0.4); }
+  50% { box-shadow: 0 14px 34px rgba(219, 65, 62, 0.45); }
 }
 
 /* ===================== 화면 3: 여행지 소개 ===================== */
