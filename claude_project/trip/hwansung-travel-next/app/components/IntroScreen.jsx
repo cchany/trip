@@ -13,6 +13,7 @@ export default function IntroScreen({ onSchedule }) {
           playsInline
           poster="/assets/images/kamakura-poster.jpg"
         >
+          <source src="/assets/video/kamakura.webm" type="video/webm" />
           <source src="/assets/video/kamakura.mp4" type="video/mp4" />
         </video>
         <div className="intro-overlay" />

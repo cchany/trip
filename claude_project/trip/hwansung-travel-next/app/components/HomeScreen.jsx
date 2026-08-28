@@ -8,7 +8,7 @@ export default function HomeScreen({ onYes, onNo }) {
         <p className="notify-message">
           <span className="notify-name"><b>X</b></span>에게 메시지가
           <br />
-          왔습니다.
+          도착했습니다.
         </p>
         <div className="notify-actions">
           <button className="btn btn-outline" type="button" onClick={onNo}>

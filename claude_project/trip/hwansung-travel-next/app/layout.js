@@ -1,4 +1,5 @@
 import "./globals.css";
+import "leaflet/dist/leaflet.css";
 import { wanjuDaedunsan, kccHanbit, gangwonEduAll, nanumBarunpen } from "./fonts";
 
 export const metadata = {
