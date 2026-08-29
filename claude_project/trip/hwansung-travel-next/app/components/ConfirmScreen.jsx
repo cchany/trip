@@ -55,12 +55,12 @@ const ConfirmScreen = forwardRef(function ConfirmScreen({ onConfirm }, ref) {
       <div className="message-stack">
         {stage >= 1 && (
           <div className="chat-bubble bubble-pop">
-            <span className="chat-bubble-text">안녕</span>
+            <span className="chat-bubble-text">우리 열여섯에 만났는데..</span>
           </div>
         )}
         {stage >= 2 && (
           <div className="chat-bubble bubble-pop">
-            <span className="chat-bubble-text">여행가자</span>
+            <span className="chat-bubble-text">벌써 스물아홉이야!</span>
           </div>
         )}
         {stage >= 3 && (
