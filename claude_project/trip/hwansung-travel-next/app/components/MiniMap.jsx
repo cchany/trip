@@ -35,9 +35,11 @@ export default function MiniMap({ point }) {
       }).setView([point.lat, point.lng], 15);
       mapRef.current = map;
 
-      L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
+      // OpenStreetMap 표준 타일 — 별도 API 키 없이 완전 무료로 쓸 수 있습니다.
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         maxZoom: 19,
-        subdomains: "abcd",
+        subdomains: "abc",
+        attribution: "&copy; OpenStreetMap contributors",
       }).addTo(map);
 
       L.marker([point.lat, point.lng]).addTo(map);
@@ -57,8 +59,10 @@ export default function MiniMap({ point }) {
   }
 
   function handleClick() {
+    // 장소명(query)이 있으면 좌표 대신 이름으로 검색해서 실제 장소 카드(핀+이름)가 뜨도록 합니다.
+    const q = point.query ? encodeURIComponent(point.query) : `${point.lat},${point.lng}`;
     window.open(
-      `https://www.google.com/maps/search/?api=1&query=${point.lat},${point.lng}`,
+      `https://www.google.com/maps/search/?api=1&query=${q}`,
       "_blank",
       "noopener,noreferrer"
     );

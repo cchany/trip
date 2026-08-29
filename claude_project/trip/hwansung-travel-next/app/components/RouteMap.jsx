@@ -26,10 +26,11 @@ export default function RouteMap({ dayLabel, points, onClose }) {
       const map = L.map(canvasRef.current, { zoomControl: true, attributionControl: true });
       mapRef.current = map;
 
-      L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
+      // OpenStreetMap 표준 타일 — 별도 API 키 없이 완전 무료로 쓸 수 있습니다.
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         maxZoom: 19,
-        subdomains: "abcd",
-        attribution: "&copy; OpenStreetMap contributors &copy; CARTO",
+        subdomains: "abc",
+        attribution: "&copy; OpenStreetMap contributors",
       }).addTo(map);
 
       const latlngs = validPoints.map((p) => [p.lat, p.lng]);
@@ -57,21 +58,23 @@ export default function RouteMap({ dayLabel, points, onClose }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // 장소명(query)이 있으면 좌표 대신 이름으로 검색해서 실제 장소 카드가 뜨도록 합니다.
+  function placeParam(p) {
+    return p.query ? encodeURIComponent(p.query) : `${p.lat},${p.lng}`;
+  }
+
   function handleOpenGoogleMaps() {
     if (validPoints.length === 0) return;
     let url;
     if (validPoints.length > 1) {
       const origin = validPoints[0];
       const destination = validPoints[validPoints.length - 1];
-      const waypoints = validPoints
-        .slice(1, -1)
-        .map((p) => `${p.lat},${p.lng}`)
-        .join("|");
-      url = `https://www.google.com/maps/dir/?api=1&origin=${origin.lat},${origin.lng}&destination=${destination.lat},${destination.lng}${
+      const waypoints = validPoints.slice(1, -1).map(placeParam).join("|");
+      url = `https://www.google.com/maps/dir/?api=1&origin=${placeParam(origin)}&destination=${placeParam(destination)}${
         waypoints ? `&waypoints=${waypoints}` : ""
       }`;
     } else {
-      url = `https://www.google.com/maps/search/?api=1&query=${validPoints[0].lat},${validPoints[0].lng}`;
+      url = `https://www.google.com/maps/search/?api=1&query=${placeParam(validPoints[0])}`;
     }
     window.open(url, "_blank", "noopener,noreferrer");
   }

@@ -413,6 +413,10 @@ button { font: inherit; color: inherit; }
   overflow: hidden;
   cursor: pointer;
   box-shadow: 0 6px 16px rgba(81, 60, 54, 0.12);
+  /* 지도 라이브러리가 내부적으로 매우 높은 z-index를 쓰기 때문에,
+     별도 스택 컨텍스트로 가둬서 음악 플레이어 같은 다른 UI 위로 새어나가지 않게 합니다 */
+  isolation: isolate;
+  z-index: 0;
 }
 .mini-map-canvas {
   position: absolute;
@@ -531,6 +535,8 @@ button { font: inherit; color: inherit; }
   height: 320px;
   border-radius: 16px;
   overflow: hidden;
+  isolation: isolate;
+  z-index: 0;
 }
 .route-modal-empty {
   height: 160px;
