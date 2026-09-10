@@ -82,6 +82,7 @@ export default function HwansungApp() {
             onNo={() => {
               /* TODO: NO 눌렀을 때 동작 정의 */
             }}
+            onSchedule={() => setScreen(SCREENS.TIMELINE)}
           />
         )}
         {screen === SCREENS.CONFIRM && (

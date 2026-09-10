@@ -1,14 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import { TABS, scheduleData, documents } from "../data/schedule";
+import { TABS, scheduleData, documents, parkingInfo } from "../data/schedule";
 import MiniMap from "./MiniMap";
 import RouteMap from "./RouteMap";
+import ParkingModal from "./ParkingModal";
+import RabbitIcon from "./RabbitIcon";
 
 export default function TimelineScreen() {
   const [activeDay, setActiveDay] = useState(0);
   const [expandedIndex, setExpandedIndex] = useState(null);
   const [routeOpen, setRouteOpen] = useState(false);
+  const [parkingOpen, setParkingOpen] = useState(false);
   const items = scheduleData[activeDay] || [];
   const activeTab = TABS.find((t) => t.day === activeDay);
 
@@ -22,12 +25,22 @@ export default function TimelineScreen() {
   }
 
   function handleDocClick(doc) {
+    if (doc.type === "info") {
+      setParkingOpen(true); // PDF 대신 상세 정보 팝업을 띄움
+      return;
+    }
     window.open(doc.file, "_blank", "noopener,noreferrer");
   }
 
   return (
     <div className="screen">
       <div className="timeline-wrap">
+        <div className="rabbit-roam" aria-hidden="true">
+          <div className="rabbit-track">
+            <RabbitIcon className="rabbit-icon" />
+          </div>
+        </div>
+
         <nav className="tab-bar" role="tablist">
           {TABS.map((tab) => (
             <button
@@ -86,6 +99,8 @@ export default function TimelineScreen() {
       {routeOpen && (
         <RouteMap dayLabel={activeTab?.label} points={items} onClose={() => setRouteOpen(false)} />
       )}
+
+      {parkingOpen && <ParkingModal info={parkingInfo} onClose={() => setParkingOpen(false)} />}
     </div>
   );
 }

@@ -330,6 +330,49 @@ button { font: inherit; color: inherit; }
   flex-direction: column;
   padding-top: 8px;
 }
+
+/* 탭 바를 땅 삼아 좌우로 통통 뛰어다니는 토끼 */
+.rabbit-roam {
+  position: relative;
+  z-index: 1;
+  height: 19px;
+  margin-bottom: 0; /* 탭 바 흰 테두리에 딱 맞닿게, 겹치지 않도록 */
+  overflow: visible;
+  pointer-events: none;
+}
+.rabbit-track {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  display: inline-block;
+  animation: rabbit-roam 12s ease-in-out infinite;
+}
+.rabbit-icon {
+  display: block;
+  width: 20px;
+  height: auto;
+  animation: rabbit-hop 0.6s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+@keyframes rabbit-roam {
+  0% { left: 0; transform: scaleX(1); }
+  48% { left: calc(100% - 20px); transform: scaleX(1); }
+  50% { left: calc(100% - 20px); transform: scaleX(-1); }
+  98% { left: 0; transform: scaleX(-1); }
+  100% { left: 0; transform: scaleX(1); }
+}
+/* 픽셀 게임 스프라이트처럼 반복되는 점프 한 사이클 — 착지 시 눌렸다가(스쿼시),
+   뛰어오르며 세로로 길어지고(스트레치), 정점을 찍고 다시 착지합니다 */
+@keyframes rabbit-hop {
+  0% { transform: translateY(0) scaleY(1) scaleX(1); }
+  12% { transform: translateY(1px) scaleY(0.8) scaleX(1.16); }
+  32% { transform: translateY(-9px) scaleY(1.12) scaleX(0.92); }
+  50% { transform: translateY(-12px) scaleY(1.08) scaleX(0.95); }
+  70% { transform: translateY(-6px) scaleY(1.05) scaleX(0.97); }
+  90% { transform: translateY(1px) scaleY(0.8) scaleX(1.16); }
+  100% { transform: translateY(0) scaleY(1) scaleX(1); }
+}
+
 .tab-bar {
   display: flex;
   gap: 8px;
@@ -547,6 +590,69 @@ button { font: inherit; color: inherit; }
   opacity: 0.55;
   font-size: 14px;
 }
+/* 서류함 - 공항 주차 위치 팝업 (.route-modal 바텀시트를 재사용) */
+.parking-modal {
+  max-height: 88%;
+}
+.parking-info-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.parking-info-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(81, 60, 54, 0.1);
+}
+.parking-info-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+.parking-info-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent-soft);
+  letter-spacing: 0.02em;
+}
+.parking-info-value {
+  font-size: 15px;
+  color: var(--ink);
+  line-height: 1.5;
+}
+.parking-info-note {
+  font-size: 12px;
+  color: var(--accent);
+  background: rgba(219, 65, 62, 0.08);
+  border-radius: 10px;
+  padding: 8px 10px;
+  line-height: 1.5;
+}
+.parking-payment-table {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.parking-payment-line {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: var(--ink);
+}
+.parking-payment-line.discount {
+  color: var(--accent);
+}
+.parking-payment-line.final {
+  font-weight: 700;
+  font-size: 16px;
+  padding-top: 8px;
+  border-top: 1px dashed rgba(81, 60, 54, 0.2);
+}
+
 .route-modal-gmaps {
   align-self: center;
   border: none;
