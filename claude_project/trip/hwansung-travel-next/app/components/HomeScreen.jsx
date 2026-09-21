@@ -4,10 +4,9 @@ export default function HomeScreen({ onYes, onNo, onSchedule }) {
       <div className="notify-card">
         <div className="notify-top">
           <span className="notify-bell" aria-hidden="true">🔔</span>
-          <span className="notify-label">딩동</span>
         </div>
         <p className="notify-message">
-          <span className="notify-name">OO</span>에게 메시지가
+          <span className="notify-name">X</span>에게 메시지가
           <br />
           왔습니다.
         </p>

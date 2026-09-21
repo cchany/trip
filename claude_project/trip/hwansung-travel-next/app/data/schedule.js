@@ -15,8 +15,8 @@ export const TABS = [
 // file 경로에 실제 PDF를 넣어주세요 (public/assets/docs/ 폴더, 파일명 동일하게).
 // type: "info" 인 항목은 PDF 대신 아래 parkingInfo 같은 데이터로 팝업을 띄웁니다.
 export const documents = [
-  { id: "passport", title: "여권 정보", file: "/assets/docs/passport.pdf" },
-  { id: "flight", title: "항공권 e-티켓", file: "/assets/docs/flight.pdf" },
+  { id: "flight-yuna", title: "항공권 e-티켓 - 유나", file: "/assets/docs/flight-yuna.pdf" },
+  { id: "flight-chanyoung", title: "항공권 e-티켓 - 찬영", file: "/assets/docs/flight-chanyoung.pdf" },
   { id: "hotel-shinjuku", title: "숙소 예약 - 신주쿠", file: "/assets/docs/hotel-shinjuku.pdf" },
   { id: "hotel-kamakura", title: "숙소 예약 - 가마쿠라", file: "/assets/docs/hotel-kamakura.pdf" },
   { id: "parking", title: "공항 주차 위치", type: "info" },
@@ -52,29 +52,119 @@ export const parkingInfo = {
   },
 };
 
-// 각 항목: time(시간), title(내용), lat/lng(지도 표시 좌표), query(구글맵에서 열 때 검색할 정확한 장소명 — 이게 있으면 좌표 대신 이 이름으로 검색해서 실제 장소 카드가 뜹니다)
+// 장소 항목: time(시간), title(내용), lat/lng(지도 표시 좌표), query(구글맵에서 열 때 검색할 정확한 장소명 — 이게 있으면 좌표 대신 이 이름으로 검색해서 실제 장소 카드가 뜹니다)
+// 이동 구간 항목: { type: "transit", mode(아이콘), title(구간명), detail(노선/티켓 등), duration(소요시간) } — 두 장소 항목 사이에 넣어주세요.
 export const scheduleData = {
   1: [
-    // 9/26(토) — 인천 출발 → 나리타 도착 → 신주쿠 숙박
+    // 9/26(토) — 거여역 출발 → 공항 주차장 → 인천공항 → 나리타 도착 → 가마쿠라 이동 및 관광 → 가마쿠라 숙박
+    { time: "새벽 4:00", title: "거여역 출발", lat: 37.4941, lng: 127.1425, query: "거여역" },
+    {
+      type: "transit",
+      mode: "🚗",
+      title: "거여역 → 공항 주차장",
+      detail: "버터플라이시티",
+      duration: "약 1시간",
+    },
+    {
+      time: "새벽 5:00",
+      title: "공항 주차장 도착",
+      lat: 37.4922,
+      lng: 126.4925,
+      query: "인천 영종구 흰바위로59번길 8",
+    },
+    {
+      type: "transit",
+      mode: "🚌",
+      title: "주차장 → 인천공항",
+      detail: "무료 셔틀버스",
+      duration: "약 10분",
+    },
     { time: "08:00", title: "인천국제공항 출발", lat: 37.4602, lng: 126.4407, query: "인천국제공항" },
+    {
+      type: "transit",
+      mode: "✈️",
+      title: "인천 → 나리타",
+      duration: "약 2시간 30분",
+    },
     { time: "11:00", title: "나리타국제공항 도착", lat: 35.76528, lng: 140.38556, query: "나리타 국제공항" },
-    { time: "오후", title: "나리타 인근 관광 (장소 미정)", lat: null, lng: null },
-    { time: "저녁", title: "신주쿠 숙소 체크인", lat: 35.69056, lng: 139.69944, query: "신주쿠역" },
+    {
+      type: "transit",
+      mode: "🚆",
+      title: "나리타 → 신주쿠",
+      detail: "게이세이 스카이라이너",
+      duration: "약 1시간",
+    },
+    {
+      type: "transit",
+      mode: "🚆",
+      title: "신주쿠 → 가마쿠라",
+      detail: "에노시마-가마쿠라 프리패스 (오다큐선 → 후지사와역 환승 → 에노덴)",
+      duration: "약 1시간 30분",
+    },
+    { time: "오후~저녁", title: "가마쿠라 관광", lat: 35.3187, lng: 139.55194, query: "가마쿠라역" },
+    {
+      time: "저녁",
+      title: "가마쿠라 숙소 체크인",
+      lat: 35.31575,
+      lng: 139.549667,
+      query: "2 Chome-2-39 Yuigahama, Kamakura, Kanagawa 248-0014, Japan",
+    },
   ],
   2: [
-    // 9/27(일) — 신주쿠 → 가마쿠라 이동(후지사와 환승), 가마쿠라 관광 및 숙박
-    { time: "08:00", title: "신주쿠역 출발 (기차)", lat: 35.69056, lng: 139.69944, query: "신주쿠역" },
+    // 9/27(일) — 가마쿠라 숙소 체크아웃 → 가마쿠라 관광 → 신주쿠로 이동, 신주쿠 숙박
+    {
+      time: "오전",
+      title: "가마쿠라 숙소 체크아웃",
+      lat: 35.31575,
+      lng: 139.549667,
+      query: "2 Chome-2-39 Yuigahama, Kamakura, Kanagawa 248-0014, Japan",
+    },
     { time: "오전~오후", title: "가마쿠라 관광", lat: 35.3187, lng: 139.55194, query: "가마쿠라역" },
-    { time: "저녁", title: "가마쿠라 숙소 체크인", lat: 35.3187, lng: 139.55194, query: "가마쿠라역" },
+    {
+      type: "transit",
+      mode: "🚆",
+      title: "가마쿠라 → 신주쿠",
+      detail: "에노시마-가마쿠라 프리패스 (에노덴 → 후지사와역 환승 → 오다큐선)",
+      duration: "약 1시간 30분",
+    },
+    { time: "저녁", title: "신주쿠 도착", lat: 35.69056, lng: 139.69944, query: "신주쿠역" },
+    {
+      time: "밤",
+      title: "신주쿠 숙소 체크인",
+      lat: 35.696609,
+      lng: 139.705276,
+      query: "2-14-5 Kabukicho, Shinjuku, Tokyo, 160-0021, Japan",
+    },
   ],
   3: [
-    // 9/28(월) — 이즈 샤보텐 동물공원
-    { time: "종일", title: "이즈 샤보텐 동물공원", lat: 34.9071258, lng: 139.1008839, query: "이즈 샤보텐 동물공원" },
+    // 9/28(월) — 신주쿠/시부야 관광, 신주쿠 숙박
+    { time: "오전~오후", title: "신주쿠 관광", lat: 35.69056, lng: 139.69944, query: "신주쿠역" },
+    {
+      type: "transit",
+      mode: "🚇",
+      title: "신주쿠 → 시부야",
+      detail: "JR 야마노테선",
+      duration: "약 7분",
+    },
+    { time: "오후~저녁", title: "시부야 관광", lat: 35.6598, lng: 139.7006, query: "시부야역" },
   ],
   4: [
-    // 9/29(화) — 오전~오후 미정, 저녁 귀국 (나리타 출발 가정)
-    { time: "오전~오후", title: "일정 미정", lat: null, lng: null },
+    // 9/29(화) — 신주쿠 쇼핑, 저녁 귀국 (나리타 출발)
+    { time: "오전~오후", title: "신주쿠 쇼핑", lat: 35.69056, lng: 139.69944, query: "신주쿠역" },
+    {
+      type: "transit",
+      mode: "🚆",
+      title: "신주쿠 → 나리타",
+      detail: "게이세이 스카이라이너",
+      duration: "약 1시간",
+    },
     { time: "20:00", title: "귀국 비행 출발 (나리타)", lat: 35.76528, lng: 140.38556, query: "나리타 국제공항" },
+    {
+      type: "transit",
+      mode: "✈️",
+      title: "나리타 → 인천",
+      duration: "약 2시간 30분",
+    },
     { time: "22:30", title: "인천국제공항 도착", lat: 37.4602, lng: 126.4407, query: "인천국제공항" },
   ],
 };

@@ -447,6 +447,41 @@ button { font: inherit; color: inherit; }
   margin-top: 10px;
 }
 
+/* 두 장소 사이의 이동 구간(비행/기차 등) — 지도 미리보기 없이 노선/소요시간만 표시 */
+.transit-item {
+  border-bottom: none !important;
+  padding-bottom: 0 !important;
+}
+.transit-segment {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 2px 0 2px 1px;
+  margin-left: 16px;
+}
+.transit-segment-icon {
+  font-size: 15px;
+  line-height: 1.6;
+  flex-shrink: 0;
+}
+.transit-segment-body {
+  flex: 1;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.transit-segment-title {
+  color: var(--ink);
+  font-weight: 600;
+}
+.transit-segment-duration {
+  color: var(--accent-soft);
+  font-weight: 400;
+}
+.transit-segment-detail {
+  color: var(--accent-soft);
+  margin-top: 2px;
+}
+
 /* 일정 항목을 눌렀을 때 펼쳐지는 미니 지도 */
 .mini-map {
   position: relative;

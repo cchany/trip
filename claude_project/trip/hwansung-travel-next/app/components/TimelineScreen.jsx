@@ -68,19 +68,36 @@ export default function TimelineScreen() {
           </ul>
         ) : (
           <ul className="schedule-list">
-            {items.map((item, i) => (
-              <li key={i}>
-                <button type="button" className="schedule-item" onClick={() => handleItemClick(i)}>
-                  <span className="schedule-time">{item.time}</span>
-                  <span className="schedule-title">{item.title}</span>
-                </button>
-                {expandedIndex === i && (
-                  <div className="schedule-item-map">
-                    <MiniMap point={item} />
+            {items.map((item, i) =>
+              item.type === "transit" ? (
+                <li key={i} className="transit-item">
+                  <div className="transit-segment">
+                    <span className="transit-segment-icon" aria-hidden="true">
+                      {item.mode}
+                    </span>
+                    <div className="transit-segment-body">
+                      <div className="transit-segment-title">
+                        {item.title}
+                        {item.duration && <span className="transit-segment-duration"> · {item.duration}</span>}
+                      </div>
+                      {item.detail && <div className="transit-segment-detail">{item.detail}</div>}
+                    </div>
                   </div>
-                )}
-              </li>
-            ))}
+                </li>
+              ) : (
+                <li key={i}>
+                  <button type="button" className="schedule-item" onClick={() => handleItemClick(i)}>
+                    <span className="schedule-time">{item.time}</span>
+                    <span className="schedule-title">{item.title}</span>
+                  </button>
+                  {expandedIndex === i && (
+                    <div className="schedule-item-map">
+                      <MiniMap point={item} />
+                    </div>
+                  )}
+                </li>
+              )
+            )}
           </ul>
         )}
       </div>
