@@ -19,6 +19,13 @@ export const documents = [
   { id: "flight-chanyoung", title: "항공권 e-티켓 - 찬영", file: "/assets/docs/flight-chanyoung.pdf" },
   { id: "hotel-shinjuku", title: "숙소 예약 - 신주쿠", file: "/assets/docs/hotel-shinjuku.pdf" },
   { id: "hotel-kamakura", title: "숙소 예약 - 가마쿠라", file: "/assets/docs/hotel-kamakura.pdf" },
+  {
+    id: "nex-qr",
+    title: "나리타 익스프레스 QR",
+    type: "detail",
+    file: "/assets/docs/nex-qr.pdf",
+    detail: { train: "12:45", boarding: "터미널1" },
+  },
   { id: "parking", title: "공항 주차 위치", type: "info" },
 ];
 
@@ -52,7 +59,7 @@ export const parkingInfo = {
   },
 };
 
-// 장소 항목: time(시간), title(내용), lat/lng(지도 표시 좌표), query(구글맵에서 열 때 검색할 정확한 장소명 — 이게 있으면 좌표 대신 이 이름으로 검색해서 실제 장소 카드가 뜹니다)
+// 장소 항목: time(시간), title(내용), note(제목 아래 표시할 보충 설명, 선택), lat/lng(지도 표시 좌표), query(구글맵에서 열 때 검색할 정확한 장소명 — 이게 있으면 좌표 대신 이 이름으로 검색해서 실제 장소 카드가 뜹니다)
 // 이동 구간 항목: { type: "transit", mode(아이콘), title(구간명), detail(노선/티켓 등), duration(소요시간) } — 두 장소 항목 사이에 넣어주세요.
 export const scheduleData = {
   1: [
@@ -90,18 +97,27 @@ export const scheduleData = {
     {
       type: "transit",
       mode: "🚆",
-      title: "나리타 → 신주쿠",
-      detail: "게이세이 스카이라이너",
-      duration: "약 1시간",
+      title: "나리타 → 오후나",
+      detail: "N'EX(나리타 익스프레스), 1터미널, 12:45 탑승",
+      duration: "약 1시간 48분",
+      mapUrl: "https://maps.app.goo.gl/5syAvWCDyWf5aWNr9",
     },
+    { time: "14:33", title: "오후나역 도착", lat: 35.3543127, lng: 139.5314119, query: "오후나역" },
     {
       type: "transit",
       mode: "🚆",
-      title: "신주쿠 → 가마쿠라",
-      detail: "에노시마-가마쿠라 프리패스 (오다큐선 → 후지사와역 환승 → 에노덴)",
-      duration: "약 1시간 30분",
+      title: "오후나 → 가마쿠라",
+      detail: "JR 요코스카선",
+      duration: "약 10분",
+      mapUrl: "https://maps.app.goo.gl/8dX2fixBtTfutZ8o8",
     },
-    { time: "오후~저녁", title: "가마쿠라 관광", lat: 35.3187, lng: 139.55194, query: "가마쿠라역" },
+    { 
+      time: "오후~저녁", 
+      title: "가마쿠라 관광",       
+      note: "가마쿠라역에서 노리오리쿤 구매",
+      lat: 35.3187, 
+      lng: 139.55194, 
+      query: "가마쿠라역" },
     {
       time: "저녁",
       title: "가마쿠라 숙소 체크인",
@@ -119,15 +135,25 @@ export const scheduleData = {
       lng: 139.549667,
       query: "2 Chome-2-39 Yuigahama, Kamakura, Kanagawa 248-0014, Japan",
     },
-    { time: "오전~오후", title: "가마쿠라 관광", lat: 35.3187, lng: 139.55194, query: "가마쿠라역" },
+    {
+      time: "오전~오후",
+      title: "가마쿠라 관광",
+      note: "가마쿠라역에서 노리오리쿤(800엔) 구매",
+      lat: 35.3187,
+      lng: 139.55194,
+      query: "가마쿠라역",
+    },
+
+    { time: "저녁", title: "신주쿠 출발", lat: 35.69056, lng: 139.69944, query: "신주쿠역" },
     {
       type: "transit",
       mode: "🚆",
       title: "가마쿠라 → 신주쿠",
-      detail: "에노시마-가마쿠라 프리패스 (에노덴 → 후지사와역 환승 → 오다큐선)",
+      detail: "스이카(IC카드) 이용, 후지사와역 → 오다큐선",
       duration: "약 1시간 30분",
+      mapUrl: "https://maps.app.goo.gl/baxdoUF33DoHZW437",
     },
-    { time: "저녁", title: "신주쿠 도착", lat: 35.69056, lng: 139.69944, query: "신주쿠역" },
+
     {
       time: "밤",
       title: "신주쿠 숙소 체크인",

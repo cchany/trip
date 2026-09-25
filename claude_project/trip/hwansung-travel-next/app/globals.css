@@ -400,64 +400,101 @@ button { font: inherit; color: inherit; }
   opacity: 1;
 }
 
+/* 일정 목록 — 왼쪽 레일(점+세로선)로 시간 흐름을 한눈에 보여주는 타임라인 구조 */
 .schedule-list {
   list-style: none;
   margin: 0;
-  padding: 0 0 64px;
+  padding: 4px 0 64px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 0;
   overflow-y: auto;
 }
 .schedule-list li {
-  border-bottom: 1px solid rgba(81, 60, 54, 0.15);
-  padding-bottom: 14px;
+  display: grid;
+  grid-template-columns: 20px 1fr;
+  column-gap: 10px;
 }
+/* 레일: 위/아래로 이어지는 세로선 위에 현재 항목 위치를 점으로 표시 */
+.schedule-rail {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+.schedule-rail::before {
+  content: '';
+  width: 9px;
+  height: 9px;
+  margin-top: 19px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+  z-index: 1;
+}
+.schedule-rail::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: rgba(81, 60, 54, 0.16);
+}
+.schedule-list li:first-child .schedule-rail::after { top: 19px; }
+.schedule-list li:last-child .schedule-rail::after { bottom: calc(100% - 19px); }
+.schedule-rail-transit::before { display: none; }
+
+.schedule-card { padding: 3px 0 12px; min-width: 0; }
 .schedule-item {
   width: 100%;
   display: flex;
   align-items: center;
   gap: 10px;
   border: none;
-  background: transparent;
-  padding: 0;
+  background: var(--card);
+  border-radius: 14px;
+  padding: 12px 14px;
   font-size: 15px;
   text-align: left;
   cursor: pointer;
+  box-shadow: 0 6px 16px rgba(81, 60, 54, 0.08);
+  transition: transform 0.12s ease, opacity 0.12s ease;
 }
-.schedule-item::before {
-  content: '';
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--accent);
-  flex-shrink: 0;
-}
+.schedule-item:active { transform: scale(0.98); opacity: 0.9; }
+.schedule-item-arrow { opacity: 0.35; font-size: 16px; flex-shrink: 0; }
 .schedule-time {
   font-family: var(--font-accent);
-  font-size: 13px;
-  color: var(--accent-soft);
+  font-variant-numeric: tabular-nums;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  background: var(--accent-soft);
+  border-radius: var(--r-pill);
+  padding: 4px 10px;
   flex-shrink: 0;
-  min-width: 52px;
 }
-.schedule-title {
+.schedule-title-wrap {
   flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.schedule-note {
+  font-size: 12px;
+  color: var(--accent-soft);
+  font-weight: 400;
 }
 .schedule-item-map {
-  margin-top: 10px;
+  margin-top: 8px;
 }
 
 /* 두 장소 사이의 이동 구간(비행/기차 등) — 지도 미리보기 없이 노선/소요시간만 표시 */
-.transit-item {
-  border-bottom: none !important;
-  padding-bottom: 0 !important;
-}
+.transit-item { padding-bottom: 6px; }
 .transit-segment {
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  padding: 2px 0 2px 1px;
-  margin-left: 16px;
+  padding: 6px 0;
 }
 .transit-segment-icon {
   font-size: 15px;
@@ -480,6 +517,26 @@ button { font: inherit; color: inherit; }
 .transit-segment-detail {
   color: var(--accent-soft);
   margin-top: 2px;
+}
+.transit-segment-link {
+  width: 100%;
+  border: none;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: transform 0.12s ease, background 0.12s ease;
+}
+.transit-segment-link:active {
+  transform: scale(0.98);
+  background: rgba(81, 60, 54, 0.06);
+}
+.transit-segment-map-hint {
+  display: inline-block;
+  margin-top: 4px;
+  color: var(--accent-soft);
+  font-size: 11px;
+  font-weight: 600;
 }
 
 /* 일정 항목을 눌렀을 때 펼쳐지는 미니 지도 */
@@ -534,6 +591,12 @@ button { font: inherit; color: inherit; }
   gap: 10px;
   overflow-y: auto;
 }
+/* 서류함 항목 카드 — 펼침 영역(doc-item-detail)이 있을 땐 이 래퍼가 카드 모양(둥근 모서리·그림자)을
+   전담하고, 안쪽 버튼/펼침 영역은 평평하게 붙여서 하나의 카드처럼 보이게 합니다 */
+.doc-item-group {
+  border-radius: 14px;
+  box-shadow: 0 6px 16px rgba(81, 60, 54, 0.1);
+}
 .doc-item {
   width: 100%;
   display: flex;
@@ -544,11 +607,94 @@ button { font: inherit; color: inherit; }
   border-radius: 14px;
   padding: 14px 16px;
   cursor: pointer;
-  box-shadow: 0 6px 16px rgba(81, 60, 54, 0.1);
+  transition: transform 0.12s ease, background 0.15s ease, border-radius 0.15s ease;
 }
-.doc-item-icon { font-size: 18px; }
-.doc-item-title { flex: 1; text-align: left; font-size: 15px; }
-.doc-item-arrow { opacity: 0.4; font-size: 18px; }
+.doc-item-group-open .doc-item {
+  background: var(--blush);
+  border-radius: 14px 14px 0 0;
+}
+.doc-item:active { transform: scale(0.98); }
+.doc-item-icon {
+  font-size: 18px;
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--blush);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.doc-item-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+.doc-item-title { text-align: left; font-size: 15px; }
+/* 항목 유형(PDF 바로 열기 / 상세보기 / 안내)을 뱃지로 명확히 구분 */
+.doc-item-badge {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  padding: 3px 9px;
+  border-radius: var(--r-pill);
+  color: var(--accent-soft);
+  background: rgba(202, 87, 92, 0.12);
+}
+.doc-item-badge-detail { color: #2b6e5e; background: rgba(43, 110, 94, 0.12); }
+.doc-item-badge-info { color: var(--ink); background: rgba(81, 60, 54, 0.1); }
+.doc-item-arrow { opacity: 0.4; font-size: 18px; flex-shrink: 0; }
+/* PDF를 새 창에서 바로 여는 항목과, 눌러서 내용을 펼치는 항목을 화살표 모양으로 구분 */
+.doc-item-arrow-external { font-size: 15px; opacity: 0.45; }
+
+/* 키보드 탐색 시 포커스 위치를 명확히 표시 (접근성) */
+.doc-item:focus-visible,
+.schedule-item:focus-visible,
+.tab-btn:focus-visible,
+.transit-segment-link:focus-visible,
+.btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.doc-item-detail {
+  padding: 14px 16px 16px;
+  background: var(--card);
+  border-radius: 0 0 14px 14px;
+  border-top: 1px solid rgba(81, 60, 54, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.doc-item-detail-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--ink);
+}
+.doc-item-detail-label {
+  flex-shrink: 0;
+  min-width: 68px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent-soft);
+}
+.doc-item-detail-qr {
+  align-self: flex-start;
+  margin-top: 2px;
+  border: none;
+  background: var(--accent-soft);
+  color: #fff;
+  font-size: 13px;
+  padding: 8px 14px;
+  border-radius: var(--r-pill);
+  cursor: pointer;
+  transition: transform 0.12s ease;
+}
+.doc-item-detail-qr:active { transform: scale(0.96); }
 
 /* 우측 하단 고정 — 현재 일자의 이동 루트 지도 열기 */
 .route-fab {
